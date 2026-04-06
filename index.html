@@ -544,7 +544,7 @@
           </div>
         </div>
         <div class="phase-body">
-          <p>Open PvP across the entire map. Kingdoms fall, capitals burn, and deals are broken. The Obsidian Throne is placed at world center — hold it to win.</p>
+          <p>Open PvP across the entire map. Kingdoms fall, capitals burn, and deals are broken.</p>
         </div>
       </div>
       <div class="phase-card phase-4">
@@ -570,8 +570,6 @@
       <button class="mechanic-pill" onclick="showMechanic('land')">Land Claiming</button>
       <button class="mechanic-pill" onclick="showMechanic('resources')">Resource Nodes</button>
       <button class="mechanic-pill" onclick="showMechanic('diplomacy')">Diplomacy</button>
-      <button class="mechanic-pill" onclick="showMechanic('throne')">The Throne</button>
-      <button class="mechanic-pill" onclick="showMechanic('crazy')">Crazy Kingdomz Twist</button>
     </div>
     <div class="mechanic-detail" id="m-land">
       <h4>Land Claiming</h4>
@@ -589,55 +587,8 @@
       <h4>The Obsidian Throne</h4>
       <p>The Throne spawns at 0,0 during Age of War. Any player who stands on it earns 1 point per minute for their kingdom. If your team holds the Throne uncontested for 10 consecutive minutes, you trigger the Throne Gambit — double points until contested. Final Throne holder at border closure wins.</p>
     </div>
-    <div class="mechanic-detail" id="m-crazy">
-      <h4>The Crazy Kingdomz Twist</h4>
-      <p>Every 90 minutes, a random Chaos Edict is drawn from the Crazy Kingdomz Deck. Edicts include: Double XP Drop, Phantom Storm (phantoms spawn for all), Treasure Hunt (chest spawns at random coords announced in chat), Lava Rising (lava level climbs 2 blocks below current sea level), and Blessing of Madness (random potion effect on all players for 10 min).</p>
-    </div>
 
     <div class="divider"><div class="divider-line"></div><div class="divider-diamond"></div><div class="divider-line"></div></div>
-
-    <div class="section-heading">Victory Conditions & Scoring</div>
-    <table class="victory-table">
-      <thead>
-        <tr>
-          <th>Condition</th>
-          <th>Points</th>
-          <th>Notes</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>Throne Control</td>
-          <td>1 pt / min</td>
-          <td>Doubles during uncontested Throne Gambit</td>
-        </tr>
-        <tr>
-          <td>Capital Standing</td>
-          <td>5 pts / hour</td>
-          <td>Passive — lost if capital is burned</td>
-        </tr>
-        <tr>
-          <td>Resource Node Held</td>
-          <td>2 pts / node / hour</td>
-          <td>Multiple nodes stack</td>
-        </tr>
-        <tr>
-          <td>Rival Capital Burned</td>
-          <td>+20 pts (one-time)</td>
-          <td>Requires destroying their bed & banner post</td>
-        </tr>
-        <tr>
-          <td>Chaos Edict Bonus</td>
-          <td>+5 to +15 pts</td>
-          <td>Varies per edict drawn</td>
-        </tr>
-        <tr>
-          <td>Final Throne Holder</td>
-          <td>+50 pts (Grand Finale)</td>
-          <td>Awarded at border closure</td>
-        </tr>
-      </tbody>
-    </table>
 
     <div class="divider"><div class="divider-line"></div><div class="divider-diamond"></div><div class="divider-line"></div></div>
 
@@ -677,7 +628,7 @@
         <div class="schedule-day-content" id="d1">
           <div class="timeline-item"><div class="t-time">12:00 PM</div><div class="t-event"><strong>Server Opens</strong> — Kits distributed, teams lock in, lore intro read in voice chat</div></div>
           <div class="timeline-item"><div class="t-time">12:30 PM</div><div class="t-event"><strong>Age of Founding Begins</strong> — World opens, grace period starts</div></div>
-          <div class="timeline-item"><div class="t-time">3:00 PM</div><div class="t-event"><strong>Age of Expansion</strong> — Borders lock, first Chaos Edict drawn</div></div>
+          <div class="timeline-item"><div class="t-time">3:00 PM</div><div class="t-event"><strong>Age of Expansion</strong> — Borders lock</div></div>
           <div class="timeline-item"><div class="t-time">6:00 PM</div><div class="t-event"><strong>Day 1 Ends</strong> — Server pauses, scores tallied and posted</div></div>
         </div>
       </div>
@@ -688,7 +639,7 @@
         </div>
         <div class="schedule-day-content" id="d2">
           <div class="timeline-item"><div class="t-time">12:00 PM</div><div class="t-event"><strong>Server Resumes</strong> — Brief build window (30 min), prep for war</div></div>
-          <div class="timeline-item"><div class="t-time">12:30 PM</div><div class="t-event"><strong>Age of War</strong> — Obsidian Throne placed, full PvP enabled</div></div>
+          <div class="timeline-item"><div class="t-time">12:30 PM</div><div class="t-event"><strong>Age of War</strong> — full PvP enabled</div></div>
           <div class="timeline-item"><div class="t-time">3:00 PM</div><div class="t-event"><strong>Age of Reckoning</strong> — Border begins shrinking every 20 min</div></div>
           <div class="timeline-item"><div class="t-time">5:00 PM</div><div class="t-event"><strong>Weekend I Ends</strong> — Snapshot scores saved for Weekend II carryover</div></div>
         </div>
@@ -701,7 +652,6 @@
         <div class="schedule-day-content" id="d3">
           <div class="timeline-item"><div class="t-time">6:00 PM</div><div class="t-event"><strong>New Map, Fresh Start</strong> — World 2 opens, scores carry forward but land resets</div></div>
           <div class="timeline-item"><div class="t-time">6:30 PM</div><div class="t-event"><strong>Age of Founding II</strong> — Same rules, new strategies</div></div>
-          <div class="timeline-item"><div class="t-time">9:00 PM</div><div class="t-event"><strong>Age of Expansion II</strong> — Second Chaos Edict deck shuffled</div></div>
           <div class="timeline-item"><div class="t-time">11:00 PM</div><div class="t-event"><strong>Day 3 Ends</strong> — Standings updated live on Discord</div></div>
         </div>
       </div>
