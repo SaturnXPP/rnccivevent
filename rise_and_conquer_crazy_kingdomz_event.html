@@ -1,0 +1,756 @@
+
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=MedievalSharp&family=Cinzel:wght@400;700;900&family=Crimson+Pro:ital,wght@0,400;0,600;1,400&display=swap');
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --gold: #c9933a;
+    --gold-light: #e8b84b;
+    --gold-dark: #8a6020;
+    --crimson: #8b1a1a;
+    --crimson-light: #c0392b;
+    --parchment: #f5edd6;
+    --parchment-dark: #e8d5a3;
+    --ink: #1a1208;
+    --ink-mid: #3d2b0f;
+    --stone: #4a4035;
+    --banner-blue: #1a3a5c;
+    --banner-green: #1a4a2e;
+  }
+
+  body {
+    background: transparent;
+    font-family: 'Crimson Pro', Georgia, serif;
+    color: var(--ink);
+  }
+
+  .scroll-wrapper {
+    position: relative;
+    background: var(--parchment);
+    border: 3px solid var(--gold-dark);
+    border-radius: 4px;
+    padding: 0;
+    overflow: hidden;
+    box-shadow: inset 0 0 60px rgba(139,96,32,0.15);
+  }
+
+  .scroll-wrapper::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      repeating-linear-gradient(0deg, transparent, transparent 39px, rgba(139,96,32,0.06) 39px, rgba(139,96,32,0.06) 40px),
+      repeating-linear-gradient(90deg, transparent, transparent 59px, rgba(139,96,32,0.04) 59px, rgba(139,96,32,0.04) 60px);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .corner {
+    position: absolute;
+    width: 56px; height: 56px;
+    z-index: 2;
+  }
+  .corner svg { width: 56px; height: 56px; }
+  .corner-tl { top: 0; left: 0; }
+  .corner-tr { top: 0; right: 0; transform: scaleX(-1); }
+  .corner-bl { bottom: 0; left: 0; transform: scaleY(-1); }
+  .corner-br { bottom: 0; right: 0; transform: scale(-1); }
+
+  .inner { position: relative; z-index: 1; padding: 56px 48px 48px; }
+
+  .header-banner {
+    text-align: center;
+    border-bottom: 2px solid var(--gold-dark);
+    padding-bottom: 20px;
+    margin-bottom: 28px;
+    position: relative;
+  }
+
+  .subtitle-tag {
+    font-family: 'Cinzel', serif;
+    font-size: 11px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--gold-dark);
+    margin-bottom: 10px;
+  }
+
+  .event-title {
+    font-family: 'Cinzel', serif;
+    font-size: 42px;
+    font-weight: 900;
+    line-height: 1.1;
+    color: var(--crimson);
+    text-shadow: 2px 2px 0 rgba(139,96,32,0.2);
+    margin-bottom: 4px;
+  }
+
+  .event-subtitle {
+    font-family: 'Cinzel', serif;
+    font-size: 18px;
+    font-weight: 400;
+    color: var(--gold-dark);
+    letter-spacing: 2px;
+    font-style: italic;
+  }
+
+  .dates-row {
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+    margin-top: 16px;
+    flex-wrap: wrap;
+  }
+
+  .date-badge {
+    background: var(--crimson);
+    color: var(--parchment);
+    font-family: 'Cinzel', serif;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    padding: 6px 18px;
+    border: 2px solid var(--gold);
+    border-radius: 2px;
+  }
+
+  .divider {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin: 20px 0;
+  }
+  .divider-line { flex: 1; height: 1.5px; background: var(--gold-dark); opacity: 0.5; }
+  .divider-diamond {
+    width: 10px; height: 10px;
+    background: var(--gold);
+    transform: rotate(45deg);
+    flex-shrink: 0;
+  }
+
+  .section-heading {
+    font-family: 'Cinzel', serif;
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--crimson);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .section-heading::before {
+    content: '';
+    display: inline-block;
+    width: 6px; height: 6px;
+    background: var(--gold);
+    transform: rotate(45deg);
+    flex-shrink: 0;
+  }
+
+  .lore-block {
+    background: rgba(139,96,32,0.07);
+    border-left: 3px solid var(--gold);
+    padding: 16px 20px;
+    margin-bottom: 24px;
+    font-size: 17px;
+    font-style: italic;
+    line-height: 1.75;
+    color: var(--ink-mid);
+  }
+
+  .overview-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 12px;
+    margin-bottom: 28px;
+  }
+
+  .stat-card {
+    background: rgba(139,96,32,0.08);
+    border: 1.5px solid var(--gold-dark);
+    border-radius: 2px;
+    padding: 14px 16px;
+    text-align: center;
+  }
+  .stat-card .stat-icon { font-size: 22px; margin-bottom: 4px; }
+  .stat-card .stat-label {
+    font-family: 'Cinzel', serif;
+    font-size: 10px;
+    letter-spacing: 2px;
+    color: var(--gold-dark);
+    text-transform: uppercase;
+    margin-bottom: 4px;
+  }
+  .stat-card .stat-value {
+    font-family: 'Cinzel', serif;
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--crimson);
+  }
+
+  .phases-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 16px;
+    margin-bottom: 28px;
+  }
+
+  .phase-card {
+    border: 1.5px solid var(--gold-dark);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+
+  .phase-header {
+    padding: 10px 14px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .phase-num {
+    font-family: 'Cinzel', serif;
+    font-size: 22px;
+    font-weight: 900;
+    color: var(--parchment);
+    line-height: 1;
+  }
+  .phase-name {
+    font-family: 'Cinzel', serif;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--parchment);
+    letter-spacing: 1px;
+  }
+  .phase-time {
+    font-size: 11px;
+    color: rgba(245,237,214,0.75);
+    font-style: italic;
+  }
+
+  .phase-body {
+    background: rgba(255,255,255,0.4);
+    padding: 12px 14px;
+  }
+  .phase-body p {
+    font-size: 14.5px;
+    line-height: 1.65;
+    color: var(--ink-mid);
+  }
+
+  .phase-1 .phase-header { background: var(--banner-blue); }
+  .phase-2 .phase-header { background: var(--banner-green); }
+  .phase-3 .phase-header { background: var(--crimson); }
+  .phase-4 .phase-header { background: var(--stone); }
+
+  .rules-columns {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin-bottom: 28px;
+  }
+
+  @media (max-width: 600px) {
+    .rules-columns { grid-template-columns: 1fr; }
+    .event-title { font-size: 30px; }
+    .inner { padding: 40px 24px 32px; }
+  }
+
+  .rules-list {
+    list-style: none;
+    padding: 0;
+  }
+  .rules-list li {
+    font-size: 15px;
+    line-height: 1.6;
+    color: var(--ink-mid);
+    padding: 5px 0 5px 20px;
+    position: relative;
+    border-bottom: 1px solid rgba(139,96,32,0.12);
+  }
+  .rules-list li:last-child { border-bottom: none; }
+  .rules-list li::before {
+    content: '✦';
+    position: absolute;
+    left: 0;
+    color: var(--gold);
+    font-size: 10px;
+    top: 8px;
+  }
+
+  .mechanic-row {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 28px;
+    flex-wrap: wrap;
+  }
+
+  .mechanic-pill {
+    background: var(--crimson);
+    color: var(--parchment);
+    font-family: 'Cinzel', serif;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    padding: 7px 16px;
+    border: 1.5px solid var(--gold);
+    border-radius: 2px;
+    cursor: pointer;
+    transition: background 0.15s;
+  }
+  .mechanic-pill:hover { background: var(--gold-dark); }
+  .mechanic-pill.active { background: var(--gold-dark); border-color: var(--gold-light); }
+
+  .mechanic-detail {
+    background: rgba(139,96,32,0.08);
+    border: 1.5px solid var(--gold-dark);
+    border-radius: 2px;
+    padding: 16px 18px;
+    margin-bottom: 28px;
+    display: none;
+  }
+  .mechanic-detail.visible { display: block; }
+  .mechanic-detail h4 {
+    font-family: 'Cinzel', serif;
+    font-size: 14px;
+    color: var(--crimson);
+    margin-bottom: 8px;
+  }
+  .mechanic-detail p {
+    font-size: 15px;
+    line-height: 1.7;
+    color: var(--ink-mid);
+  }
+
+  .victory-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 28px;
+    font-size: 14.5px;
+  }
+  .victory-table th {
+    font-family: 'Cinzel', serif;
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--parchment);
+    background: var(--crimson);
+    padding: 9px 14px;
+    text-align: left;
+    border: 1px solid var(--gold-dark);
+  }
+  .victory-table td {
+    padding: 8px 14px;
+    border: 1px solid rgba(139,96,32,0.2);
+    color: var(--ink-mid);
+    vertical-align: top;
+    line-height: 1.5;
+  }
+  .victory-table tr:nth-child(even) td { background: rgba(139,96,32,0.05); }
+  .victory-table td:first-child {
+    font-family: 'Cinzel', serif;
+    font-weight: 700;
+    color: var(--crimson);
+    font-size: 13px;
+    white-space: nowrap;
+  }
+
+  .schedule-block {
+    margin-bottom: 28px;
+  }
+  .schedule-day {
+    border: 1.5px solid var(--gold-dark);
+    border-radius: 2px;
+    margin-bottom: 12px;
+    overflow: hidden;
+  }
+  .schedule-day-header {
+    background: var(--stone);
+    color: var(--parchment);
+    font-family: 'Cinzel', serif;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    padding: 10px 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+  }
+  .schedule-day-header .arrow {
+    transition: transform 0.2s;
+    font-size: 12px;
+  }
+  .schedule-day-content {
+    display: none;
+    padding: 12px 16px;
+    background: rgba(255,255,255,0.35);
+  }
+  .schedule-day-content.open { display: block; }
+  .timeline-item {
+    display: flex;
+    gap: 14px;
+    padding: 7px 0;
+    border-bottom: 1px solid rgba(139,96,32,0.12);
+    font-size: 14.5px;
+    align-items: flex-start;
+  }
+  .timeline-item:last-child { border-bottom: none; }
+  .t-time {
+    font-family: 'Cinzel', serif;
+    font-size: 12px;
+    color: var(--gold-dark);
+    font-weight: 700;
+    white-space: nowrap;
+    min-width: 56px;
+    padding-top: 2px;
+  }
+  .t-event { color: var(--ink-mid); line-height: 1.5; }
+  .t-event strong { font-weight: 600; color: var(--ink); }
+
+  .edict-box {
+    background: var(--parchment-dark);
+    border: 2px solid var(--gold);
+    border-radius: 2px;
+    padding: 20px 24px;
+    margin-bottom: 24px;
+    text-align: center;
+    position: relative;
+  }
+  .edict-box::before {
+    content: '❧';
+    position: absolute;
+    top: -12px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--parchment);
+    padding: 0 8px;
+    font-size: 20px;
+    color: var(--gold);
+  }
+  .edict-box p {
+    font-size: 16px;
+    font-style: italic;
+    line-height: 1.75;
+    color: var(--ink-mid);
+  }
+
+  .footer-seal {
+    text-align: center;
+    margin-top: 20px;
+    font-family: 'Cinzel', serif;
+    font-size: 11px;
+    letter-spacing: 3px;
+    color: var(--gold-dark);
+    text-transform: uppercase;
+  }
+</style>
+
+<div class="scroll-wrapper">
+  <div class="corner corner-tl"><svg viewBox="0 0 56 56"><path d="M0,0 L56,0 L56,8 L8,8 L8,56 L0,56 Z" fill="#c9933a" opacity="0.3"/><path d="M0,0 L56,0 L56,3 L3,3 L3,56 L0,56 Z" fill="#8a6020"/><circle cx="8" cy="8" r="5" fill="#c9933a"/><rect x="16" y="0" width="8" height="8" fill="#c9933a" opacity="0.4"/><rect x="28" y="0" width="8" height="8" fill="#c9933a" opacity="0.25"/><rect x="0" y="16" width="8" height="8" fill="#c9933a" opacity="0.4"/><rect x="0" y="28" width="8" height="8" fill="#c9933a" opacity="0.25"/></svg></div>
+  <div class="corner corner-tr"><svg viewBox="0 0 56 56"><path d="M0,0 L56,0 L56,0 L56,56 L48,56 L48,8 L0,8 Z" fill="#c9933a" opacity="0.3"/><path d="M56,0 L56,56 L53,56 L53,3 L0,3 L0,0 Z" fill="#8a6020"/><circle cx="48" cy="8" r="5" fill="#c9933a"/><rect x="32" y="0" width="8" height="8" fill="#c9933a" opacity="0.4"/><rect x="20" y="0" width="8" height="8" fill="#c9933a" opacity="0.25"/><rect x="48" y="16" width="8" height="8" fill="#c9933a" opacity="0.4"/><rect x="48" y="28" width="8" height="8" fill="#c9933a" opacity="0.25"/></svg></div>
+  <div class="corner corner-bl"><svg viewBox="0 0 56 56"><path d="M0,56 L56,56 L56,48 L8,48 L8,0 L0,0 Z" fill="#c9933a" opacity="0.3"/><path d="M0,56 L56,56 L56,53 L3,53 L3,0 L0,0 Z" fill="#8a6020"/><circle cx="8" cy="48" r="5" fill="#c9933a"/></svg></div>
+  <div class="corner corner-br"><svg viewBox="0 0 56 56"><path d="M56,56 L0,56 L0,48 L48,48 L48,0 L56,0 Z" fill="#c9933a" opacity="0.3"/><path d="M56,56 L0,56 L0,53 L53,53 L53,0 L56,0 Z" fill="#8a6020"/><circle cx="48" cy="48" r="5" fill="#c9933a"/></svg></div>
+
+  <div class="inner">
+
+    <div class="header-banner">
+      <div class="subtitle-tag">⚔ Official Event Proclamation ⚔</div>
+      <div class="event-title">Rise And Conquer</div>
+      <div class="event-subtitle">Crazy Kingdomz</div>
+      <div class="dates-row">
+        <div class="date-badge">Weekend I — Apr 25–26</div>
+        <div class="date-badge">Weekend II — May 2–3</div>
+      </div>
+    </div>
+
+    <div class="lore-block">
+      "The old order has crumbled. The great empires lie in ruin, and the land is fractured into a thousand squabbling fiefdoms. Legends speak of a throne left empty — forged of obsidian and crowned with fire. Will your kingdom rise to claim it? Or will the age of mad kings swallow you whole?"
+    </div>
+
+    <div class="divider"><div class="divider-line"></div><div class="divider-diamond"></div><div class="divider-line"></div></div>
+
+    <div class="section-heading">Event at a Glance</div>
+    <div class="overview-grid">
+      <div class="stat-card">
+        <div class="stat-label">Format</div>
+        <div class="stat-value">2-Weekend CIV</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Playstyle</div>
+        <div class="stat-value">Semi-Anarchy</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Team Size</div>
+        <div class="stat-value">2–6 Players</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Server Type</div>
+        <div class="stat-value">Vanilla+ SMP</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">World Border</div>
+        <div class="stat-value">5,000 × 5,000</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Victory Mode</div>
+        <div class="stat-value">Points + Throne</div>
+      </div>
+    </div>
+
+    <div class="divider"><div class="divider-line"></div><div class="divider-diamond"></div><div class="divider-line"></div></div>
+
+    <div class="section-heading">The Four Ages</div>
+    <div class="phases-grid">
+      <div class="phase-card phase-1">
+        <div class="phase-header">
+          <div>
+            <div class="phase-num">I</div>
+          </div>
+          <div>
+            <div class="phase-name">Age of Founding</div>
+            <div class="phase-time">Day 1 — Hours 0–3</div>
+          </div>
+        </div>
+        <div class="phase-body">
+          <p>Claim your land. Build your capital. Form alliances or strike alone. The world is fresh — every decision echoes forever. Borders are soft, but not for long.</p>
+        </div>
+      </div>
+      <div class="phase-card phase-2">
+        <div class="phase-header">
+          <div>
+            <div class="phase-num">II</div>
+          </div>
+          <div>
+            <div class="phase-name">Age of Expansion</div>
+            <div class="phase-time">Day 1 — Hours 3–6</div>
+          </div>
+        </div>
+        <div class="phase-body">
+          <p>Borders lock in. Raid neighboring lands for resources. Build your military, expand your farms, and secure your supply lines before the war bells ring.</p>
+        </div>
+      </div>
+      <div class="phase-card phase-3">
+        <div class="phase-header">
+          <div>
+            <div class="phase-num">III</div>
+          </div>
+          <div>
+            <div class="phase-name">Age of War</div>
+            <div class="phase-time">Day 2 — Hours 0–4</div>
+          </div>
+        </div>
+        <div class="phase-body">
+          <p>Open PvP across the entire map. Kingdoms fall, capitals burn, and deals are broken. The Obsidian Throne is placed at world center — hold it to win.</p>
+        </div>
+      </div>
+      <div class="phase-card phase-4">
+        <div class="phase-header">
+          <div>
+            <div class="phase-num">IV</div>
+          </div>
+          <div>
+            <div class="phase-name">Age of Reckoning</div>
+            <div class="phase-time">Day 2 — Final 2 Hours</div>
+          </div>
+        </div>
+        <div class="phase-body">
+          <p>World border shrinks by 500 blocks every 20 minutes. The last kingdom standing on the Throne when the border closes is crowned champion.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="divider"><div class="divider-line"></div><div class="divider-diamond"></div><div class="divider-line"></div></div>
+
+    <div class="section-heading">Core Mechanics — Click to Reveal</div>
+    <div class="mechanic-row" id="pillRow">
+      <button class="mechanic-pill" onclick="showMechanic('land')">Land Claiming</button>
+      <button class="mechanic-pill" onclick="showMechanic('resources')">Resource Nodes</button>
+      <button class="mechanic-pill" onclick="showMechanic('diplomacy')">Diplomacy</button>
+      <button class="mechanic-pill" onclick="showMechanic('throne')">The Throne</button>
+      <button class="mechanic-pill" onclick="showMechanic('crazy')">Crazy Kingdomz Twist</button>
+    </div>
+    <div class="mechanic-detail" id="m-land">
+      <h4>Land Claiming</h4>
+      <p>Each team starts with 3 banner posts. Plant a banner to claim a 64×64 chunk. Banners can be destroyed in combat to unclaim land. You may claim up to 8 regions total — quality over quantity. Claimed land shows particle borders.</p>
+    </div>
+    <div class="mechanic-detail" id="m-resources">
+      <h4>Resource Nodes</h4>
+      <p>Five Named Resource Nodes spawn across the map: an Iron Mine, Gold Vein, Ancient Library (XP), Enchanted Grove (Silk Touch crops), and the Blacksmith Forge (faster smelting). Controlling a node grants its bonus to your entire team for as long as you hold it.</p>
+    </div>
+    <div class="mechanic-detail" id="m-diplomacy">
+      <h4>Diplomacy</h4>
+      <p>Declare War, form Alliances, or sign Non-Aggression Pacts in #diplomacy chat. NAPs last minimum 30 minutes. Alliances cap at 2 kingdoms. All deals are player-enforced — admins don't referee, only moderate cheating. Betrayal is legal and encouraged.</p>
+    </div>
+    <div class="mechanic-detail" id="m-throne">
+      <h4>The Obsidian Throne</h4>
+      <p>The Throne spawns at 0,0 during Age of War. Any player who stands on it earns 1 point per minute for their kingdom. If your team holds the Throne uncontested for 10 consecutive minutes, you trigger the Throne Gambit — double points until contested. Final Throne holder at border closure wins.</p>
+    </div>
+    <div class="mechanic-detail" id="m-crazy">
+      <h4>The Crazy Kingdomz Twist</h4>
+      <p>Every 90 minutes, a random Chaos Edict is drawn from the Crazy Kingdomz Deck. Edicts include: Double XP Drop, Phantom Storm (phantoms spawn for all), Treasure Hunt (chest spawns at random coords announced in chat), Lava Rising (lava level climbs 2 blocks below current sea level), and Blessing of Madness (random potion effect on all players for 10 min).</p>
+    </div>
+
+    <div class="divider"><div class="divider-line"></div><div class="divider-diamond"></div><div class="divider-line"></div></div>
+
+    <div class="section-heading">Victory Conditions & Scoring</div>
+    <table class="victory-table">
+      <thead>
+        <tr>
+          <th>Condition</th>
+          <th>Points</th>
+          <th>Notes</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Throne Control</td>
+          <td>1 pt / min</td>
+          <td>Doubles during uncontested Throne Gambit</td>
+        </tr>
+        <tr>
+          <td>Capital Standing</td>
+          <td>5 pts / hour</td>
+          <td>Passive — lost if capital is burned</td>
+        </tr>
+        <tr>
+          <td>Resource Node Held</td>
+          <td>2 pts / node / hour</td>
+          <td>Multiple nodes stack</td>
+        </tr>
+        <tr>
+          <td>Rival Capital Burned</td>
+          <td>+20 pts (one-time)</td>
+          <td>Requires destroying their bed & banner post</td>
+        </tr>
+        <tr>
+          <td>Chaos Edict Bonus</td>
+          <td>+5 to +15 pts</td>
+          <td>Varies per edict drawn</td>
+        </tr>
+        <tr>
+          <td>Final Throne Holder</td>
+          <td>+50 pts (Grand Finale)</td>
+          <td>Awarded at border closure</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="divider"><div class="divider-line"></div><div class="divider-diamond"></div><div class="divider-line"></div></div>
+
+    <div class="section-heading">Rules & Code of Conduct</div>
+    <div class="rules-columns">
+      <div>
+        <ul class="rules-list">
+          <li>No hacked clients or x-ray. Baritone is banned.</li>
+          <li>No TNT cannoning or duping mechanics.</li>
+          <li>Combat logging is a 10-point deduction per offense.</li>
+          <li>Spawn zone (200 block radius) is a permanent no-PvP zone.</li>
+          <li>No griefing outside of declared war — Age of Founding and Expansion are protected.</li>
+          <li>Staff decisions are final. Sportsmanship matters.</li>
+        </ul>
+      </div>
+      <div>
+        <ul class="rules-list">
+          <li>Team cap is 6. Alliances can have at most 2 kingdoms.</li>
+          <li>Respawn is unlimited — no permadeath.</li>
+          <li>Discord must be used for all diplomatic communications.</li>
+          <li>Screen recording encouraged — clip your best moments!</li>
+          <li>Spectator mode only for eliminated players until final hour.</li>
+          <li>Any exploit bugs must be reported immediately to staff.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="divider"><div class="divider-line"></div><div class="divider-diamond"></div><div class="divider-line"></div></div>
+
+    <div class="section-heading">Schedule</div>
+    <div class="schedule-block">
+      <div class="schedule-day">
+        <div class="schedule-day-header" onclick="toggleDay('d1')">
+          <span>⚔ Weekend I — Saturday, April 25th</span>
+          <span class="arrow" id="arr-d1">▼</span>
+        </div>
+        <div class="schedule-day-content" id="d1">
+          <div class="timeline-item"><div class="t-time">12:00 PM</div><div class="t-event"><strong>Server Opens</strong> — Kits distributed, teams lock in, lore intro read in voice chat</div></div>
+          <div class="timeline-item"><div class="t-time">12:30 PM</div><div class="t-event"><strong>Age of Founding Begins</strong> — World opens, grace period starts</div></div>
+          <div class="timeline-item"><div class="t-time">3:00 PM</div><div class="t-event"><strong>Age of Expansion</strong> — Borders lock, first Chaos Edict drawn</div></div>
+          <div class="timeline-item"><div class="t-time">6:00 PM</div><div class="t-event"><strong>Day 1 Ends</strong> — Server pauses, scores tallied and posted</div></div>
+        </div>
+      </div>
+      <div class="schedule-day">
+        <div class="schedule-day-header" onclick="toggleDay('d2')">
+          <span>⚔ Weekend I — Sunday, April 26th</span>
+          <span class="arrow" id="arr-d2">▼</span>
+        </div>
+        <div class="schedule-day-content" id="d2">
+          <div class="timeline-item"><div class="t-time">12:00 PM</div><div class="t-event"><strong>Server Resumes</strong> — Brief build window (30 min), prep for war</div></div>
+          <div class="timeline-item"><div class="t-time">12:30 PM</div><div class="t-event"><strong>Age of War</strong> — Obsidian Throne placed, full PvP enabled</div></div>
+          <div class="timeline-item"><div class="t-time">3:00 PM</div><div class="t-event"><strong>Age of Reckoning</strong> — Border begins shrinking every 20 min</div></div>
+          <div class="timeline-item"><div class="t-time">5:00 PM</div><div class="t-event"><strong>Weekend I Ends</strong> — Snapshot scores saved for Weekend II carryover</div></div>
+        </div>
+      </div>
+      <div class="schedule-day">
+        <div class="schedule-day-header" onclick="toggleDay('d3')">
+          <span>⚔ Weekend II — Friday, May 2nd</span>
+          <span class="arrow" id="arr-d3">▼</span>
+        </div>
+        <div class="schedule-day-content" id="d3">
+          <div class="timeline-item"><div class="t-time">6:00 PM</div><div class="t-event"><strong>New Map, Fresh Start</strong> — World 2 opens, scores carry forward but land resets</div></div>
+          <div class="timeline-item"><div class="t-time">6:30 PM</div><div class="t-event"><strong>Age of Founding II</strong> — Same rules, new strategies</div></div>
+          <div class="timeline-item"><div class="t-time">9:00 PM</div><div class="t-event"><strong>Age of Expansion II</strong> — Second Chaos Edict deck shuffled</div></div>
+          <div class="timeline-item"><div class="t-time">11:00 PM</div><div class="t-event"><strong>Day 3 Ends</strong> — Standings updated live on Discord</div></div>
+        </div>
+      </div>
+      <div class="schedule-day">
+        <div class="schedule-day-header" onclick="toggleDay('d4')">
+          <span>⚔ Weekend II — Saturday, May 3rd — GRAND FINALE</span>
+          <span class="arrow" id="arr-d4">▼</span>
+        </div>
+        <div class="schedule-day-content" id="d4">
+          <div class="timeline-item"><div class="t-time">12:00 PM</div><div class="t-event"><strong>Final Prep Window</strong> — 1 hour of fortification before chaos</div></div>
+          <div class="timeline-item"><div class="t-time">1:00 PM</div><div class="t-event"><strong>Grand War of Reckoning</strong> — All edicts active simultaneously, triple point scoring</div></div>
+          <div class="timeline-item"><div class="t-time">3:00 PM</div><div class="t-event"><strong>Final Border Collapse</strong> — Border closes to 500×500, Throne must be held</div></div>
+          <div class="timeline-item"><div class="t-time">5:00 PM</div><div class="t-event"><strong>Victory Ceremony</strong> — Champion crowned, highlights reel, prize reveal</div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="edict-box">
+      <p>"In the land of Crazy Kingdomz, no throne is safe, no wall is permanent, and no alliance survives contact with the enemy. May the maddest kingdom win — and may their legend be sung in the halls of Minecraft history forever."</p>
+    </div>
+
+    <div class="footer-seal">✦ Rise And Conquer: Crazy Kingdomz ✦ Apr 25–26 & May 2–3 ✦</div>
+
+  </div>
+</div>
+
+<script>
+  function showMechanic(id) {
+    document.querySelectorAll('.mechanic-detail').forEach(el => el.classList.remove('visible'));
+    document.querySelectorAll('.mechanic-pill').forEach(el => el.classList.remove('active'));
+    const detail = document.getElementById('m-' + id);
+    const pills = document.querySelectorAll('.mechanic-pill');
+    const names = ['land','resources','diplomacy','throne','crazy'];
+    if (detail) detail.classList.add('visible');
+    pills.forEach((p, i) => { if (names[i] === id) p.classList.add('active'); });
+  }
+
+  function toggleDay(id) {
+    const el = document.getElementById(id);
+    const arr = document.getElementById('arr-' + id);
+    if (el.classList.contains('open')) {
+      el.classList.remove('open');
+      arr.textContent = '▼';
+    } else {
+      el.classList.add('open');
+      arr.textContent = '▲';
+    }
+  }
+
+  toggleDay('d1');
+  toggleDay('d4');
+</script>
